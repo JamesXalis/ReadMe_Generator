@@ -2,6 +2,7 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 const { listenerCount } = require('process');
+const generateMarkdown = require('./utils/generateMarkdown');
 
 // TODO: Create an array of questions for user input
 const questions = [
@@ -47,20 +48,25 @@ const questions = [
 ];
 
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {
-    fs.writeFile(fileName, data, (err) => err ? console.log(err) : console.log("success!"))
-}
+// function writeToFile(fileName, data) {
+//     fs.writeFile('README.md', data, (err) => err ? console.log(err) : console.log("success!"))
+// }
+// fs.writeFile('README.md', process.argv[2], (err) =>
+//     err ? console.error(err) : console.log('Success!')
+// );
 
 // TODO: Create a function to initialize app
 function init() {
     inquirer.prompt(questions)
         .then((answers) => {
             console.log(answers)
-            generateMarkdown(answers);
+            fs.writeFile(`README.md`, generateMarkdown(answers),err => err ? console.log (err): console.log("Generating README.md") )
         }
         )
-        .catch (err => err ? console.log ("Try Again"): console.log("Generating README..."))
-}
-
-// Function call to initialize app
-init();
+        .catch (err => err ? console.log (err): console.log("Fail"))
+    }
+    
+    
+    
+    // Function call to initialize app
+    init();
